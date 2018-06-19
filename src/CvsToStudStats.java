@@ -12,6 +12,7 @@ public class CvsToStudStats {
         */
 
         try {
+            //open file
             BufferedReader fp = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "CP1251")); // CP1251 - file encoding
 
             System.out.println(filepath + "\n\n");
@@ -19,6 +20,7 @@ public class CvsToStudStats {
 
             String[] cols;
 
+            //read line by line: read line
             cols = fp.readLine().split(",\""); //skipping header
 
             /*
@@ -40,14 +42,14 @@ public class CvsToStudStats {
             for(int i = 0; i < cols.length; i++) {
                 cols[i] = cols[i].replaceAll("\"", ""); // removing "s
             }
-            int col5; //todo divide "н.д." and "зв."
-            try{
-                col5 = Integer.parseInt(cols[5]);
+            int col5;
+
+            try{                                    //catching "не допущен" and "отчислен", cuz they throw am exception
+                col5 = Integer.parseInt(cols[5]);   // when I try to parse them as int (well ,that was predictable)
             }
             catch(NumberFormatException e){
-                if(cols[5].equals("н.д.")) col5 = 0;
                 if(cols[5].equals("зв.")) col5 = -2;
-                else col5 = -3;
+                else col5 = 0;
             }
 
 
@@ -79,8 +81,8 @@ public class CvsToStudStats {
                     stats.addStudent(s);
                     s = new Student(Integer.parseInt(cols[0]), cols[3], cols[7], cols[1], cols[2], Integer.parseInt(cols[10]));
                     s.addMark(new SubjectStat(cols[4], cols[8], cols[9], Integer.parseInt(cols[11]), col5));
-                    if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
-                    if(col5 == -2) s.setActive(false);
+                    if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);  //"не допущен"
+                    if(col5 == -2) s.setActive(false);                          //"отчислен"
                 }
                 else{
                     for(SubjectStat stat: s.getMarks()){
