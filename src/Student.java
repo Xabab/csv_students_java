@@ -7,7 +7,9 @@ public class Student {
     private String studyForm;
     private String studentSurname;
     private String studentName;
-    private int auditory;
+    private int caf;
+    private boolean active = true;
+
     private List<SubjectStat> marks = new ArrayList<>();
 
     public Student(int ID,
@@ -15,13 +17,13 @@ public class Student {
                    String studyForm,
                    String studentSurname,
                    String studentName,
-                   int auditory) {
+                   int caf) {
         this.ID = ID;
         this.studentSurname = studentSurname;
         this.studentName = studentName;
         this.group = group;
         this.studyForm = studyForm;
-        this.auditory = auditory;
+        this.caf = caf;
     }
 
     public void addMark(SubjectStat s){
@@ -29,14 +31,23 @@ public class Student {
     }
 
     public String toString(){
-        return ""; //todo
+        StringBuilder out = new StringBuilder();
+        out.append(Integer.toString(ID) + " " + studentName + " " + studentSurname + ", " +
+                "група " + group + ", " + studyForm + ", кафедра " + caf + "\n");
+
+        if (active) {
+            for (SubjectStat s : marks) {
+                out.append("\t" + s.getName() + " (" + s.getCaf() + "), " +
+                        s.getLecturerName() + " " + s.getLecturerSurname() + ": ");
+                if (s.getMark100() == 0) out.append("не допущений(а)");
+                else out.append(Integer.toString(s.getMark100()) + "/100 (" + Integer.toString(s.getMark5()) + "/5)");
+                out.append("\n");
+            }
+        }
+        else out.append("\t відрахований(а)");
+
+        return out.toString();
     }
-
-    public String toShortString(){
-        return ""; //todo
-    }
-
-
 
 
 
@@ -60,13 +71,20 @@ public class Student {
         return studentName;
     }
 
-    public int getAuditory() {
-        return auditory;
+    public int getCaf() {
+        return caf;
     }
 
     public List<SubjectStat> getMarks() {
         return marks;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
 }

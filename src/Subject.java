@@ -2,13 +2,13 @@ public class Subject {
     private String name = "-1";
     private String lecturerName = "-1";
     private String lecturerSurname = "-1";
-    private int auditory = -1;
+    private int caf = -1;
 
-    public Subject(String name, String lecturerName, String lecturerSurname, int auditory) {
+    public Subject(String name, String lecturerName, String lecturerSurname, int caf) {
         this.name = name;
         this.lecturerName = lecturerName;
         this.lecturerSurname = lecturerSurname;
-        this.auditory = auditory;
+        this.caf = caf;
     }
 
     public String getName() {
@@ -35,12 +35,12 @@ public class Subject {
         this.lecturerSurname = lecturerSurname;
     }
 
-    public int getAuditory() {
-        return auditory;
+    public int getCaf() {
+        return caf;
     }
 
-    public void setAuditory(int auditory) {
-        this.auditory = auditory;
+    public void setCaf(int caf) {
+        this.caf = caf;
     }
 
 

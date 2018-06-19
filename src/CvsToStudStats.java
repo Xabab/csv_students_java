@@ -19,17 +19,9 @@ public class CvsToStudStats {
 
             String[] cols;
 
+            cols = fp.readLine().split(",\""); //skipping header
 
-            fp.readLine();
-            while(fp.ready()){
-                cols = fp.readLine().split(",\"");  // using ," - hack to not divide cell's string, if it has a coma
-
-                for(int i = 0; i < cols.length; i++) {
-                    cols[i] = cols[i].replaceAll("\"", ""); // removing "s
-                }
-
-
-                /*
+            /*
                 0 ID
 	            1    LAST_NAME_UKR
 	            2    NAME_UKR
@@ -44,30 +36,65 @@ public class CvsToStudStats {
 	            11   CHAIR_NUMBER_1
                 */
 
-                int col5; //todo divide "н.д." and "зв."
+            cols = fp.readLine().split(",\"");  // using ," - hack to not divide cell's string if it has a coma
+            for(int i = 0; i < cols.length; i++) {
+                cols[i] = cols[i].replaceAll("\"", ""); // removing "s
+            }
+            int col5; //todo divide "н.д." and "зв."
+            try{
+                col5 = Integer.parseInt(cols[5]);
+            }
+            catch(NumberFormatException e){
+                if(cols[5].equals("н.д.")) col5 = 0;
+                if(cols[5].equals("зв.")) col5 = -2;
+                else col5 = -3;
+            }
+
+
+
+            Student s = new Student(Integer.parseInt(cols[0]), cols[3], cols[7], cols[1], cols[2], Integer.parseInt(cols[10]));
+            s.addMark(new SubjectStat(cols[4], cols[8], cols[9], Integer.parseInt(cols[11]), col5));
+            if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
+            if(col5 == -2) s.setActive(false);
+
+            fp.readLine();
+
+            Lable: while(fp.ready()){
+                cols = fp.readLine().split(",\"");  // same hack
+
+                for(int i = 0; i < cols.length; i++) {
+                    cols[i] = cols[i].replaceAll("\"", ""); // removing "s
+                }
+
                 try{
                     col5 = Integer.parseInt(cols[5]);
                 }
                 catch(NumberFormatException e){
-                    col5 = 0;
+                    if(cols[5].equals("зв.")) col5 = -2;
+                    else col5 = 0;
                 }
 
 
-
-                //todo fix students
-
-                //Student s = new Student();  // not the most elegant way, but...
-
-                //stats.addStudent(s);
-
+                if (s.getID() != Integer.parseInt(cols[0])){
+                    stats.addStudent(s);
+                    s = new Student(Integer.parseInt(cols[0]), cols[3], cols[7], cols[1], cols[2], Integer.parseInt(cols[10]));
+                    s.addMark(new SubjectStat(cols[4], cols[8], cols[9], Integer.parseInt(cols[11]), col5));
+                    if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
+                    if(col5 == -2) s.setActive(false);
+                }
+                else{
+                    for(SubjectStat stat: s.getMarks()){
+                        if (stat.getName().equals(cols[4])){
+                            continue Lable;                   //skipping, if student has mark dupes
+                        }
+                    }
+                    s.addMark(new SubjectStat(cols[4], cols[8], cols[9], Integer.parseInt(cols[11]), col5));
+                    if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
+                }
             }
             fp.close();
 
             System.out.println(stats.getStudents().size());
-
-            for (Student s : stats.getStudents()) {
-                System.out.println(s.toShortString());
-            }
         } catch(Exception e){
             e.printStackTrace();
         }

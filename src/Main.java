@@ -17,7 +17,12 @@ public class Main {
 
         StudentsStats students = new StudentsStats();
 
+        CvsToStudStats.parse(filepath, students);
 
+        for(Student s: students.getStudents()){
+            System.out.println(s);
+            System.out.println();
+        }
     }
 }
 

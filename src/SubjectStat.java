@@ -1,4 +1,5 @@
 public class SubjectStat extends Subject{
+    private boolean allowedToPass = true;
     private int mark100;
     private int mark5;
 
@@ -28,5 +29,13 @@ public class SubjectStat extends Subject{
 
     public void setMark5(int mark5) {
         this.mark5 = mark5;
+    }
+
+    public boolean isAllowedToPass() {
+        return allowedToPass;
+    }
+
+    public void setAllowedToPass(boolean allowedToPass) {
+        this.allowedToPass = allowedToPass;
     }
 }
