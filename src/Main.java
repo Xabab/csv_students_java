@@ -1,58 +1,32 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 
 public class Main {
-
     public static void main(String[] args) {
 
-        String filename;
+        String filepath;
         if (args.length == 0){
-            filename = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().concat("STUDENT_MARKS.csv");
+            filepath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().concat("STUDENT_MARKS.csv");
+            // we try to find a "STUDENT_MARKS.csv" in one folder with us
         }
         else{
-            filename = args[0];
+            filepath = args[0];
+            // if there is none, we try to take first argument as absolute path to file
         }
 
-        try {
+        StudentsStats students = new StudentsStats();
 
-            BufferedReader fp = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "CP1251"));
+        CvsToStudStats.parse(filepath, students);  // parsing file with hand made "library"
 
-            String[] header = fp.readLine().split(",\"");
-
-            if(header != null) {
-                String out = "";
-                for (int i = 0; i < header.length; i++) {
-                    header[i] = header[i].replaceAll("\"", "");
-                    out = out.concat(header[i]);
-                    out = out.concat("\t\t");
-                }
-                System.out.println(out);
-            }
-
-            String[] cols;
-            String out = "";
-
-            while(fp.ready()){
-                cols = fp.readLine().split(",\"");
-
-                for(int i = 0; i < cols.length; i++) {
-                    if (i != 0) out += "\t";
-                    cols[i] = cols[i].replaceAll("\"", "");
-                    out += header[i] + ":" + "\t" + cols[i] + "\n";
-                }
-                System.out.println(out);
-
-                out = "";
-                cols = null;
-            }
-            fp.close();
-            fp  = null;
-            header = null;
-        } catch(Exception e){
-            e.printStackTrace();
+        for(Student s: students.getStudents()){    // printing what we just parsed, just in case
+            System.out.println(s + "\n");
         }
+
+        students.printStats();
+        students.writeStats();
     }
 }
+
