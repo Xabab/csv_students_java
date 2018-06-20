@@ -8,13 +8,13 @@ public class Main {
     public static void main(String[] args) {
 
         String filepath;
-        if (args.length == 0){
-            filepath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().concat("STUDENT_MARKS.csv");
-            // we try to find a "STUDENT_MARKS.csv" in one folder with us
+        if (args.length != 0){
+            filepath = args[0];
+            // we try to take first argument as absolute path to file
         }
         else{
-            filepath = args[0];
-            // if there is none, we try to take first argument as absolute path to file
+            filepath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().concat("STUDENT_MARKS.csv");
+            // if there is none, we try to find a "STUDENT_MARKS.csv" in one folder with us
         }
 
         StudentsStats students = new StudentsStats();

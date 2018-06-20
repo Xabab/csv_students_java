@@ -172,6 +172,7 @@ public class StudentsStats {
         }
 
         p.close();
+        p.flush();
 
         try {
             p = new PrintWriter("stats.txt", "CP1251");
@@ -183,38 +184,39 @@ public class StudentsStats {
 
         for(Student s: students){
             p.write("Student #" + Integer.toString(s.getID()) + " has:");
-            p.write("\t" + "%2: " + String.format("%.0f", 100 * s.getPercentage()[0]) + "%");
-            p.write("\t" + "%3: " + String.format("%.0f", 100 * s.getPercentage()[1]) + "%");
-            p.write("\t" + "%4: " + String.format("%.0f", 100 * s.getPercentage()[2]) + "%");
-            p.write("\t" + "%5: " + String.format("%.0f", 100 * s.getPercentage()[3]) + "%");
+            p.write("\t" + "%2: " + String.format("%.0f", 100 * s.getPercentage()[0]) + "%" + "\n");
+            p.write("\t" + "%3: " + String.format("%.0f", 100 * s.getPercentage()[1]) + "%" + "\n");
+            p.write("\t" + "%4: " + String.format("%.0f", 100 * s.getPercentage()[2]) + "%" + "\n");
+            p.write("\t" + "%5: " + String.format("%.0f", 100 * s.getPercentage()[3]) + "%" + "\n");
         }
         p.write("\n\n");     //a little bit of repetitive code here and there... *pop* whops!
 
         p.write("\n");
-        p.write("In total:");
-        p.write("\t" + "%0: " + String.format("%.0f", 100 * universityMarksPercentage[0]) + "%");
-        p.write("\t" + "%2: " + String.format("%.0f", 100 * universityMarksPercentage[1]) + "%");
-        p.write("\t" + "%3: " + String.format("%.0f", 100 * universityMarksPercentage[2]) + "%");
-        p.write("\t" + "%4: " + String.format("%.0f", 100 * universityMarksPercentage[3]) + "%");
-        p.write("\t" + "%5: " + String.format("%.0f", 100 * universityMarksPercentage[4]) + "%");
+        p.write("In total:" + "\n");
+        p.write("\t" + "%0: " + String.format("%.0f", 100 * universityMarksPercentage[0]) + "%" + "\n");
+        p.write("\t" + "%2: " + String.format("%.0f", 100 * universityMarksPercentage[1]) + "%" + "\n");
+        p.write("\t" + "%3: " + String.format("%.0f", 100 * universityMarksPercentage[2]) + "%" + "\n");
+        p.write("\t" + "%4: " + String.format("%.0f", 100 * universityMarksPercentage[3]) + "%" + "\n");
+        p.write("\t" + "%5: " + String.format("%.0f", 100 * universityMarksPercentage[4]) + "%" + "\n");
         p.write("\n\n");
 
         p.write("\n");
-        p.write("Students with \"4\" and \"5\" only: " + marks45.size());
-        p.write("Students with \"5\" only: " + marks5.size());
+        p.write("Students with \"4\" and \"5\" only: " + marks45.size() + "\n");
+        p.write("Students with \"5\" only: " + marks5.size() + "\n");
         p.write("\n\n");
 
         p.write("\n");
         for(Group g: groups){
-            p.write("Group " + g.getIndex() + ": " + Integer.toString(g.students.size()));
+            p.write("Group " + g.getIndex() + ": " + Integer.toString(g.students.size()) + "\n");
         }
         p.write("\n\n");
 
 
         p.write("\n");
         for(Caf c: cafs){
-            p.write("Caf " + c.getNumber() + ": " + Integer.toString(c.students.size()));
+            p.write("Caf " + c.getNumber() + ": " + Integer.toString(c.students.size()) + "\n");
         }
         p.write("\n\n");
+        p.close();
     }
 }
