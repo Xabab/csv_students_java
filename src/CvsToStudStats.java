@@ -13,14 +13,15 @@ public class CvsToStudStats {
 
         try {
             //open file
-            BufferedReader fp = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "CP1251")); // CP1251 - file encoding
+            BufferedReader fp = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "CP1251"));
+            //trying to open a file
+            // CP1251 - file encoding
 
             System.out.println(filepath + "\n\n");
 
-
             String[] cols;
 
-            //read line by line: read line
+            /* reading file line by line: read line and cut it to cells */
             cols = fp.readLine().split(",\""); //skipping header
 
             /*
@@ -57,7 +58,7 @@ public class CvsToStudStats {
             Student s = new Student(Integer.parseInt(cols[0]), cols[3], cols[7], cols[1], cols[2], Integer.parseInt(cols[10]));
             s.addMark(new SubjectStat(cols[4], cols[8], cols[9], Integer.parseInt(cols[11]), col5));
             if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
-            if(col5 == -2) s.setActive(false);
+            if(col5 == -2) s.setActive(false);  //adding student to students list
 
             fp.readLine();
 
@@ -94,10 +95,12 @@ public class CvsToStudStats {
                     if(col5 == 0) s.getMarks().get(0).setAllowedToPass(false);
                 }
             }
+
             fp.close();
 
             System.out.println(stats.getStudents().size());
         } catch(Exception e){
+            System.out.println("File not found. Try renaming it to \"STUDENT_MARKS.csv\" and placing into a folder with this programm.");
             e.printStackTrace();
         }
     }

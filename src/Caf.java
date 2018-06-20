@@ -20,9 +20,6 @@ public class Caf {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 
     List<Student> students = new ArrayList<>();
 }

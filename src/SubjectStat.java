@@ -7,7 +7,7 @@ public class SubjectStat extends Subject{
         super(name, lecturerName, lecturerSurname, auditory);
         this.mark100 = mark100;
 
-        if (mark100 < 0) mark5 = -1;
+        if (mark100 < 0) mark5 = -1;        //parse 100 to 5
         else if (mark100 == 0) mark5 = 0;
         else if (mark100 < 60) mark5 = 2;
         else if (mark100 < 75) mark5 = 3;

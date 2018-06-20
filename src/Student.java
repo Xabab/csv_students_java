@@ -10,6 +10,12 @@ public class Student {
     private int caf;
     private boolean active = true;
 
+    public double[] getPercentage() {
+        return percentage;
+    }
+
+    private double [] percentage = {0, 0, 0, 0};
+
     private List<SubjectStat> marks = new ArrayList<>();
 
     public Student(int ID,
@@ -30,7 +36,7 @@ public class Student {
         marks.add(s);
     }
 
-    public String toString(){
+    public String toString(){   //formatting student info for printing
         StringBuilder out = new StringBuilder();
         out.append(Integer.toString(ID) + " " + studentName + " " + studentSurname + ", " +
                 "група " + group + ", " + studyForm + ", кафедра " + caf + "\n");
@@ -49,6 +55,40 @@ public class Student {
         return out.toString();
     }
 
+    public void calculateMarksPercentage(){  //calculate percentage of 2, 3, 4, 5 marks
+        if(marks.size() == 0){
+            return;             //why calculate if there is no marks?
+        }
+
+        int [] marks_count = {0, 0, 0, 0, 0}; //0, 2, 3, 4, 5
+
+        for(SubjectStat s: marks){
+            switch (s.getMark5()){
+                case 0:
+                    marks_count[0]++;
+                    break;
+                case 2:
+                    marks_count[1]++;
+                    break;
+                case 3:
+                    marks_count[2]++;
+                    break;
+                case 4:
+                    marks_count[3]++;
+                    break;
+                case 5:
+                    marks_count[4]++;
+                    break;
+                default:
+                    return; //why count if he/she is отчислен?
+            }
+        }
+
+        percentage[0] = (double)marks_count[1] / (double)marks.size();
+        percentage[1] = (double)marks_count[2] / (double)marks.size();
+        percentage[2] = (double)marks_count[3] / (double)marks.size();
+        percentage[3] = (double)marks_count[4] / (double)marks.size();
+    }
 
 
     public int getID() {
