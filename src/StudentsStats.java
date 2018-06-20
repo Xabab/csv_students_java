@@ -183,7 +183,7 @@ public class StudentsStats {
         p.write("\n");
 
         for(Student s: students){
-            p.write("Student #" + Integer.toString(s.getID()) + " has:");
+            p.write("Student #" + Integer.toString(s.getID()) + " has:\n");
             p.write("\t" + "%2: " + String.format("%.0f", 100 * s.getPercentage()[0]) + "%" + "\n");
             p.write("\t" + "%3: " + String.format("%.0f", 100 * s.getPercentage()[1]) + "%" + "\n");
             p.write("\t" + "%4: " + String.format("%.0f", 100 * s.getPercentage()[2]) + "%" + "\n");
