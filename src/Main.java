@@ -3,6 +3,13 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
+/**
+*
+* @author Daniel Ashkar 2018
+*
+*
+*/
+
 
 public class Main {
     public static void main(String[] args) {
